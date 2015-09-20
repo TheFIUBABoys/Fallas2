@@ -19,3 +19,4 @@ def test_parse_rule_several_conds():
 
 test_parse_rule_one_cond()
 test_parse_rule_several_conds()
+print "TESTS OK"
