@@ -21,3 +21,7 @@ class Rule:
             if condition not in conditions:
                 return False
         return True
+
+    def matches_consequence(self, consequence):
+        return consequence == self.consequence
+

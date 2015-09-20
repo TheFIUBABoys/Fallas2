@@ -8,7 +8,7 @@ class DomainConditions:
     @staticmethod
     def load_domain_conditions():
         conditions = []
-        with open("../resources/domainConditions") as f:
+        with open("resources/domainConditions") as f:
             for line in f:
                 if line.rstrip() != "":
                     conditions.append((line.rstrip()))
