@@ -1,4 +1,6 @@
 __author__ = 'Lucas'
+
+
 class Rule:
     def __init__(self):
         self.conditions = []
@@ -14,3 +16,8 @@ class Rule:
         rule.conditions = conditions.split(",")
         return rule
 
+    def matches_conditions(self, conditions):
+        for condition in self.conditions:
+            if condition not in conditions:
+                return False
+        return True

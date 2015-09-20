@@ -10,4 +10,15 @@ def test_load_rules():
     print "Test load rules OK"
 
 
+def test_conditions_matched():
+    fw_chaining_engine = ForwardChainingEngine()
+    consequences = fw_chaining_engine.get_consequences()
+    assert len(consequences) == 2
+    assert consequences[0] == "gastroenteritis"
+    assert consequences[1] == "gripe"
+    print "Test get consequences OK"
+
+
+
 test_load_rules()
+test_conditions_matched()
