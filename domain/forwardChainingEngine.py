@@ -19,12 +19,17 @@ class ForwardChainingEngine:
         return rules
 
     def get_consequences(self):
-        initial_conditions = self.domain_conditions.domain_conditions
-        consequences = []
-        for rule in self.rules:
-            if rule.matches_conditions(initial_conditions):
-                consequences.append(rule.consequence)
-        return consequences
+        self.get_consequences_recur(self.rules)
+        return self.domain_conditions.domain_conditions
 
-
-
+    def get_consequences_recur(self, rules):
+        matched = False
+        non_matched_rules = []
+        for rule in rules:
+            if rule.matches_conditions(self.domain_conditions.domain_conditions):
+                matched = True
+                self.domain_conditions.domain_conditions.append(rule.consequence)
+            else:
+                non_matched_rules.append(rule)
+        if matched:
+            self.get_consequences_recur(non_matched_rules)
