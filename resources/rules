@@ -1,7 +1,7 @@
-R1-dolor-panza,fiebre:gastroenteritis
-R2-fiebre,dolor-cabeza:gripe
-R3-mareos,dolor-cabeza:migrania
-R4-dolor-cabeza,convulsiones:epilepsia
-R5-mareos,dolor-panza:convulsiones
-R6-gripe, migrania:meningitis
+R1;dolor-panza,fiebre:gastroenteritis
+R2;fiebre,dolor-cabeza:gripe
+R3;mareos,dolor-cabeza:migrania
+R4;dolor-cabeza,convulsiones:epilepsia
+R5;mareos,dolor-panza:convulsiones
+R6;gripe, migrania:meningitis
 

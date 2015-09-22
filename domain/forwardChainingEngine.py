@@ -28,8 +28,12 @@ class ForwardChainingEngine:
         for rule in rules:
             if rule.matches_conditions(self.domain_conditions.domain_conditions):
                 matched = True
+                print "Matched rule: ", rule.name
                 self.domain_conditions.domain_conditions.append(rule.consequence)
             else:
+                print "Not matched rule: ", rule.name
                 non_matched_rules.append(rule)
         if matched:
             self.get_consequences_recur(non_matched_rules)
+        else:
+            print "No more conclusions can be deduced"

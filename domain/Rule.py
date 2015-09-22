@@ -11,7 +11,7 @@ class Rule:
     # Format: cause_1,cause_2, ... ,cause_n:consequence
     def rule_from_string(raw_rule):
         rule = Rule()
-        rule_name_and_content = raw_rule.split("-")
+        rule_name_and_content = raw_rule.split(";")
         rule.name = rule_name_and_content[0]
         conditions_consequence = rule_name_and_content[1].split(":")
         conditions = conditions_consequence[0]
