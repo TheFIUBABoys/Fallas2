@@ -16,6 +16,9 @@ class Slot:
         self.if_removed = f
         self.if_needed = f
 
+    def __repr__(self):
+        return self.name + ":" + self.value
+
     def get_name(self):
         return self.name
 
@@ -74,6 +77,12 @@ class Frame:
     def get_slots(self):
         return self.slots.values
 
+    def matches_frame(self, slots):
+        for slot in slots.values():
+            if slot.get_value() != self.get_slot_value(slot.get_name()):
+                return False
+        return True
+
 
 frame_conferencia = Frame("Conferencia")
 frame_conferencia.add_slot(Slot("Fecha"))
@@ -85,7 +94,7 @@ frame_conferencia_distribucion.set_slot_value("Tema", "Distribucion")
 
 frame_conferencia_desarrollo = Frame("Conferencia: Desarrollo")
 frame_conferencia_desarrollo.add_slot(Slot("Tema"))
-frame_conferencia_distribucion.set_slot_value("Tema", "Desarrollo")
+frame_conferencia_desarrollo.set_slot_value("Tema", "Desarrollo")
 
 
 frame_conferencia_distribucion1 = Frame("Conferencia: Distribucion #1")
@@ -112,7 +121,7 @@ frame_conferencia_distribucion1.set_slot_value("Lugar", "3er Piso")
 frame_conferencia_distribucion1.set_slot_value("Participantes", "Juancho")
 
 
-print "Conferencia de desarrollo #1"
+print "Conferencia de distribucion #1"
 print "\t" + frame_conferencia_distribucion1.get_slot_value("Fecha")
 print "\t" + frame_conferencia_distribucion1.get_slot_value("Tema")
 print "\t" + frame_conferencia_distribucion1.get_slot_value("Lugar")
@@ -120,3 +129,18 @@ print "\t" + frame_conferencia_distribucion1.get_slot_value("Participantes")
 
 print "Agenda de Juancho"
 print "\t" + frame_participante_juancho.get_slot_value("Agenda")
+
+test_frame_match = {"Agenda": Slot("Agenda", "Conferencia el 22/12/2015")}
+
+print "Test frame match (should match)" + test_frame_match.__str__()
+print "Result: " + frame_participante_juancho.matches_frame(test_frame_match).__str__()
+
+test_frame_match = {"Fecha": Slot("Fecha", "22/12/2015"), "Tema": Slot("Tema", "Distribucion"),
+                    "Lugar": Slot("Lugar", "3er Piso"), "Participantes": Slot("Participantes", "Juancho")}
+print "Test frame match (should match)" + test_frame_match.__str__()
+print "Result: " + frame_conferencia_distribucion1.matches_frame(test_frame_match).__str__()
+
+test_frame_match = {"Fecha": Slot("Fecha", "Conferencia el 22/01/2015")}
+
+print "Test frame match (shouldn't match)" + test_frame_match.__str__()
+print "Result: " + frame_conferencia_distribucion1.matches_frame(test_frame_match).__str__()
