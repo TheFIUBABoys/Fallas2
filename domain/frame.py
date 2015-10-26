@@ -29,14 +29,13 @@ class Slot:
         self.if_removed = partial(if_removed, self)
 
     def get_value(self):
-        #trigger if-needed-procedure (must be defined from outside) in case value null
         if not self.value:
             return self.if_needed()
         return self.value
 
     def set_value(self, value):
-        self.if_added()
         self.value = value
+        self.if_added()
         return self.value
 
     def delete_value(self):
@@ -76,36 +75,48 @@ class Frame:
         return self.slots.values
 
 
-frame1 = Frame("cabras")
-fecha_de_revision = Slot("fecha_revision")
+frame_conferencia = Frame("Conferencia")
+frame_conferencia.add_slot(Slot("Fecha"))
+frame_conferencia.set_slot_value("Fecha", "22/12/2015")
+
+frame_conferencia_distribucion = Frame("Conferencia: Distribucion")
+frame_conferencia_distribucion.add_slot(Slot("Tema"))
+frame_conferencia_distribucion.set_slot_value("Tema", "Distribucion")
+
+frame_conferencia_desarrollo = Frame("Conferencia: Desarrollo")
+frame_conferencia_desarrollo.add_slot(Slot("Tema"))
+frame_conferencia_distribucion.set_slot_value("Tema", "Desarrollo")
 
 
-def if_added(slot):
-    print slot.value + " value added"
+frame_conferencia_distribucion1 = Frame("Conferencia: Distribucion #1")
+slot_participantes = Slot("Participantes")
+
+def if_added(participante):
+    if participante.value == "Juancho":
+        frame_participante_juancho.set_slot_value("Agenda", "Conferencia el " + frame_conferencia_distribucion1.get_slot_value("Fecha"))
+        print "Agendado para Juancho: " + frame_participante_juancho.get_slot_value("Agenda")
+
+slot_participantes.set_if_added(if_added)
+frame_conferencia_distribucion1.add_slot(Slot("Lugar"))
+frame_conferencia_distribucion1.add_slot(slot_participantes)
+
+frame_conferencia_distribucion.set_parent(frame_conferencia)
+frame_conferencia_desarrollo.set_parent(frame_conferencia)
+frame_conferencia_distribucion1.set_parent(frame_conferencia_distribucion)
 
 
-def if_removed(slot):
-    print slot.value + " being removed"
+frame_participante_juancho = Frame("Juancho")
+frame_participante_juancho.add_slot(Slot("Agenda"))
+
+frame_conferencia_distribucion1.set_slot_value("Lugar", "3er Piso")
+frame_conferencia_distribucion1.set_slot_value("Participantes", "Juancho")
 
 
-def if_needed(slot):
-    slot.value = "ayer"
-    print slot.value + " provided"
+print "Conferencia de desarrollo #1"
+print "\t" + frame_conferencia_distribucion1.get_slot_value("Fecha")
+print "\t" + frame_conferencia_distribucion1.get_slot_value("Tema")
+print "\t" + frame_conferencia_distribucion1.get_slot_value("Lugar")
+print "\t" + frame_conferencia_distribucion1.get_slot_value("Participantes")
 
-fecha_de_revision.set_if_added(if_added)
-fecha_de_revision.set_if_removed(if_removed)
-fecha_de_revision.set_if_needed(if_needed)
-
-frame1.add_slot(fecha_de_revision)
-
-frame_parent = Frame("parent of cabras")
-frame1.set_parent(frame_parent)
-
-spoderman = Slot("spoderman", "y u do dis")
-frame_parent.add_slot(spoderman)
-
-frame1.get_slot_value("fecha_revision")
-frame1.set_slot_value("fecha_revision", "hoy")
-frame1.remove_slot_value("fecha_revision")
-
-print frame1.get_slot_value("spoderman")
+print "Agenda de Juancho"
+print "\t" + frame_participante_juancho.get_slot_value("Agenda")
